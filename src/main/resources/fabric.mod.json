@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "template",
+  "id": "yacg",
   "version": "${version}",
-  "name": "Template Mod",
+  "name": "Yet Another Cobble Gen",
   "description": "Mod Description",
   "authors": [
     "Syorito Hatsuki"
@@ -11,13 +11,13 @@
     "homepage": "https://syoritohatsuki.dev/"
   },
   "license": "MIT Licence",
-  "icon": "assets/template/icon.png",
+  "icon": "assets/yacg/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       {
         "adapter": "kotlin",
-        "value": "dev.syoritohatsuki.template.TemplateMod"
+        "value": "dev.syoritohatsuki.yacg.YetAnotherCobbleGen"
       }
     ]
   },
