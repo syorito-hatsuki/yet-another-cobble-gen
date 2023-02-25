@@ -1,6 +1,7 @@
 package dev.syoritohatsuki.yacg.common.block
 
 import dev.syoritohatsuki.yacg.common.block.entity.GeneratorBlockEntity
+import dev.syoritohatsuki.yacg.registry.BlocksEntityRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
@@ -76,7 +77,7 @@ open class GeneratorBlock(settings: Settings = FabricBlockSettings.of(Material.M
         state: BlockState?,
         type: BlockEntityType<T>?
     ): BlockEntityTicker<T>? {
-        return checkType(type, GeneratorBlockEntity.type, GeneratorBlockEntity::tick)
+        return checkType(type, BlocksEntityRegistry.GENERATOR_ENTITY, GeneratorBlockEntity::tick)
     }
 
 }

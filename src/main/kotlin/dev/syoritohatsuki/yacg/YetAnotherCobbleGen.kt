@@ -1,6 +1,7 @@
 package dev.syoritohatsuki.yacg
 
 import com.mojang.logging.LogUtils
+import dev.syoritohatsuki.yacg.registry.BlocksEntityRegistry
 import dev.syoritohatsuki.yacg.registry.BlocksRegistry
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
@@ -20,5 +21,6 @@ object YetAnotherCobbleGen : ModInitializer {
     override fun onInitialize() {
         logger.info("${javaClass.simpleName} initialized with mod-id $MOD_ID")
         BlocksRegistry
+        BlocksEntityRegistry
     }
 }

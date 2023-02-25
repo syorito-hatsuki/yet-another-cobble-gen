@@ -1,18 +1,13 @@
 package dev.syoritohatsuki.yacg.common.block.entity
 
-import dev.syoritohatsuki.yacg.YetAnotherCobbleGen
-import dev.syoritohatsuki.yacg.common.block.GeneratorBlock
-import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
+import dev.syoritohatsuki.yacg.registry.BlocksEntityRegistry
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.inventory.Inventories
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.util.Identifier
+import net.minecraft.text.Text
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -20,34 +15,31 @@ import net.minecraft.world.World
 class GeneratorBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState
-) : BlockEntity(type, blockPos, blockState), ImplementedInventory {
+) : BlockEntity(BlocksEntityRegistry.GENERATOR_ENTITY, blockPos, blockState), ImplementedInventory {
 
     var progress: Int = 0
     val maxProcess: Int = 20
 
     companion object {
-        const val slotCount = 0
-
-        val type: BlockEntityType<GeneratorBlockEntity> = Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
-            Identifier(YetAnotherCobbleGen.MOD_ID, "generator_block_entity"),
-            FabricBlockEntityTypeBuilder.create(
-                { blockPos, blockState ->
-                    GeneratorBlockEntity(blockPos, blockState)
-                },
-                GeneratorBlock()
-            ).build()
-        )
+        const val slotCount = 1
 
         fun tick(world: World, blockPos: BlockPos, blockState: BlockState, generatorBlockEntity: GeneratorBlockEntity) {
             if (world.isClient) return
 
             if (generatorBlockEntity.progress == generatorBlockEntity.maxProcess) {
 
-                if (generatorBlockEntity.items[0].isEmpty)
-                    generatorBlockEntity.items[0] = Items.COBBLESTONE.defaultStack.apply { count = 1 }
-                else
-                    generatorBlockEntity.items[0].count + 1
+                val output = ItemStack(Items.STONE, 1)
+
+                world.players.forEach { playerEntity ->
+                    val blockInv = generatorBlockEntity.items[0]
+                    if (ItemStack.areItemsEqual(output, blockInv)) {
+                        generatorBlockEntity.setStack(0, ItemStack(Items.STONE, blockInv.count + 1))
+                        playerEntity.sendMessage(Text.of("Stone count: ${blockInv.count}"))
+                    } else {
+                        generatorBlockEntity.setStack(0, output)
+                        playerEntity.sendMessage(Text.of("Stone count: ${blockInv.count}"))
+                    }
+                }
 
                 generatorBlockEntity.progress = 0
             }
