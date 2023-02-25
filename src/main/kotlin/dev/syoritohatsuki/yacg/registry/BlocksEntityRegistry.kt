@@ -2,7 +2,7 @@ package dev.syoritohatsuki.yacg.registry
 
 import dev.syoritohatsuki.yacg.YetAnotherCobbleGen
 import dev.syoritohatsuki.yacg.common.block.entity.GeneratorBlockEntity
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder
+import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
