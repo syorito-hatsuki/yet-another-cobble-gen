@@ -1,7 +1,7 @@
 {
   "itemGroup.yacg.generator": "Generator",
 
-  "block.yacg.cobble_generator": "Cobble Generator",
-  "block.yacg.ore_generator": "Ore Generator",
-  "block.yacg.stone_generator": "Stone Generator"
+  "block.yacg.cobble": "Cobble Generator",
+  "block.yacg.ore": "Ore Generator",
+  "block.yacg.stone": "Stone Generator"
 }

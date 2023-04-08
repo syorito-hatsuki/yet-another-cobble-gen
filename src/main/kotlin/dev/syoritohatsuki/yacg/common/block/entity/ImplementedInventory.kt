@@ -11,36 +11,17 @@ interface ImplementedInventory : SidedInventory {
 
     var items: DefaultedList<ItemStack>
 
-    companion object {
-        private fun of(items: DefaultedList<ItemStack>): ImplementedInventory {
-            return object : ImplementedInventory {
-                override var items = items
-            }
-        }
-
-        fun ofSize(size: Int): ImplementedInventory = of(DefaultedList.ofSize(size, ItemStack.EMPTY))
-    }
-
     override fun getAvailableSlots(side: Direction): IntArray = IntArray(items.size).apply {
-        for (i in indices) {
-            this[i] = i
-        }
+        for (i in indices) this[i] = i
     }
 
-    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean = true
+    override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?): Boolean = false
 
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction): Boolean = true
 
     override fun size(): Int = items.size
 
-    override fun isEmpty(): Boolean {
-        for (slot in 0 until size()) {
-            getStack(slot).apply {
-                if (isEmpty) return false
-            }
-        }
-        return true
-    }
+    override fun isEmpty(): Boolean = (0 until size()).all { getStack(it).isEmpty }
 
     override fun getStack(slot: Int): ItemStack = items[slot]
 
@@ -64,5 +45,5 @@ interface ImplementedInventory : SidedInventory {
 
     }
 
-    override fun canPlayerUse(player: PlayerEntity?): Boolean = true
+    override fun canPlayerUse(player: PlayerEntity): Boolean = true
 }

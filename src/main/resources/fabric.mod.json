@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "yacg",
   "version": "${version}",
-  "name": "Yet Another Cobble Gen",
-  "description": "Mod Description",
+  "name": "Yet Another Cobblestone Generator",
+  "description": "Flexible customizable generators",
   "authors": [
     "Syorito Hatsuki"
   ],
@@ -17,18 +17,15 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "dev.syoritohatsuki.yacg.YetAnotherCobbleGen"
+        "value": "dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator"
       }
     ]
   },
-  "mixins": [
-    "template.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=${loaderVersion}",
     "fabric": "*",
     "fabric-language-kotlin": ">=${fabricKotlinVersion}",
-    "minecraft": "${minecraftVersion}",
+    "minecraft": "1.19.x",
     "java": ">=${javaVersion}"
   }
 }
