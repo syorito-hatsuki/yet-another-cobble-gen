@@ -14,7 +14,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.registry.Registries
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.Property
@@ -23,6 +22,7 @@ import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
@@ -49,14 +49,14 @@ open class GeneratorBlock(internal val type: String) :
         CoefficientConfig.getBlocks(type)?.forEach {
             tooltip.add(
                 Text.literal(" - ")
-                    .append(Registries.ITEM.get(Identifier(it.key)).name)
+                    .append(Registry.ITEM.get(Identifier(it.key)).name)
                     .append(" [${it.value}%]").formatted(Formatting.DARK_GRAY)
             )
         }
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
-        defaultState.with(FACING, ctx.horizontalPlayerFacing.opposite) as BlockState
+        defaultState.with(FACING, ctx.playerFacing.opposite) as BlockState
 
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.with(
         FACING,

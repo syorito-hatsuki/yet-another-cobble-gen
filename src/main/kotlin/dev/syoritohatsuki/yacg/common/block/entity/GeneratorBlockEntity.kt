@@ -8,10 +8,10 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.inventory.Inventories
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import kotlin.random.Random
 
@@ -54,6 +54,12 @@ class GeneratorBlockEntity(
             markDirty(world, blockPos, blockState)
         }
 
+        private fun ItemStack.copyWithCount(count: Int): ItemStack {
+            val itemStack: ItemStack = this.copy()
+            itemStack.count = count
+            return itemStack
+        }
+
         private fun getRandomBlock(type: String, blocks: Map<String, Int>): ItemStack? {
             if (blocks.isEmpty()) {
                 logger.error("Blocks list for $type is empty")
@@ -63,7 +69,7 @@ class GeneratorBlockEntity(
             var randomNumber = Random.nextInt(blocks.values.sum())
             blocks.entries.forEach { entry ->
                 if (randomNumber < entry.value) {
-                    return ItemStack(Registries.ITEM.get(Identifier(entry.key)))
+                    return ItemStack(Registry.ITEM.get(Identifier(entry.key)))
                 }
                 randomNumber -= entry.value
             }
