@@ -1,5 +1,6 @@
 package dev.syoritohatsuki.yacg.common.block
 
+import dev.syoritohatsuki.yacg.CoefficientConfig
 import dev.syoritohatsuki.yacg.common.block.entity.GeneratorBlockEntity
 import dev.syoritohatsuki.yacg.registry.BlocksEntityRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -7,10 +8,13 @@ import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.registry.Registries
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.Property
@@ -19,21 +23,36 @@ import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
-
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 open class GeneratorBlock(internal val type: String) :
-    BlockWithEntity(FabricBlockSettings.of(Material.METAL).strength(2f)), BlockEntityProvider {
+    BlockWithEntity(FabricBlockSettings.of(Material.METAL).strength(2f).requiresTool()),
+    BlockEntityProvider {
+
     companion object {
         val FACING: DirectionProperty = HorizontalFacingBlock.FACING
     }
 
     init {
-        defaultState = (stateManager.defaultState as BlockState).with(
-            AbstractFurnaceBlock.FACING,
-            Direction.NORTH
-        ) as BlockState
+        defaultState = (stateManager.defaultState as BlockState).with(FACING, Direction.NORTH) as BlockState
+    }
+
+    override fun appendTooltip(
+        stack: ItemStack,
+        world: BlockView?,
+        tooltip: MutableList<Text>,
+        options: TooltipContext
+    ) {
+        super.appendTooltip(stack, world, tooltip, options)
+        CoefficientConfig.getBlocks(type)?.forEach {
+            tooltip.add(
+                Text.literal(" - ")
+                    .append(Registries.ITEM.get(Identifier(it.key)).name)
+                    .append(" [${it.value}%]").formatted(Formatting.DARK_GRAY)
+            )
+        }
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
@@ -89,15 +108,15 @@ open class GeneratorBlock(internal val type: String) :
                 }
             } else {
                 (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
-                    val message = Text.empty()
+                    val message = Text.empty().append(
+                        Text.literal("[").append(Text.translatable("block.yacg.$type")).append("]")
+                            .formatted(Formatting.AQUA)
+                    )
                     blockEntity.items.forEach {
-                        if (it.item != Items.AIR) message
-                            .append("\n")
-                            .append(it.item.name)
-                            .append(" x")
+                        if (it.item != Items.AIR) message.append("\n - ").append(it.item.name).append(" x")
                             .append("${it.count}")
                     }
-                    if (message.siblings.isNotEmpty()) player.sendMessage(message)
+                    if (message.siblings.isNotEmpty()) player.sendMessage(message, false)
                 }
             }
         return ActionResult.SUCCESS

@@ -34,18 +34,17 @@ class GeneratorBlockEntity(
 
             if (generatorBlockEntity.progress == generatorBlockEntity.maxProcess) {
 
-                val output = getRandomBlock(
+                val randomBlock = getRandomBlock(
                     generatorBlockEntity.type,
                     CoefficientConfig.getBlocks(generatorBlockEntity.type) ?: return
                 ) ?: return
 
-                val blockInv: Pair<ItemStack, Int> = if (!generatorBlockEntity.items.none { it.isOf(output.item) })
-                    Pair(output, generatorBlockEntity.items.indexOfFirst { it.isOf(output.item) })
-                else Pair(output, getEmptySlot(generatorBlockEntity.items) ?: return)
-
-                if (ItemStack.areItemsEqual(output, blockInv.first)) generatorBlockEntity.setStack(
-                    blockInv.second, output.copyWithCount(generatorBlockEntity.items[blockInv.second].count + 1)
-                ) else generatorBlockEntity.setStack(blockInv.second, output)
+                if (!generatorBlockEntity.items.none { it.isOf(randomBlock.item) }) {
+                    val slot = generatorBlockEntity.items.indexOfFirst { it.isOf(randomBlock.item) }
+                    generatorBlockEntity.setStack(
+                        slot, randomBlock.copyWithCount(generatorBlockEntity.items[slot].count + 1)
+                    )
+                } else generatorBlockEntity.setStack(getEmptySlot(generatorBlockEntity.items) ?: return, randomBlock)
 
                 generatorBlockEntity.progress = 0
             }

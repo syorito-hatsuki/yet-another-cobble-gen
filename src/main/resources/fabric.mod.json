@@ -36,7 +36,7 @@
     "fabricloader": ">=${loaderVersion}",
     "fabric": "*",
     "fabric-language-kotlin": ">=${fabricKotlinVersion}",
-    "minecraft": "1.19.x",
+    "minecraft": ">=1.19",
     "java": ">=${javaVersion}"
   },
   "recommends": {
