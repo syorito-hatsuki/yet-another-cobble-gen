@@ -99,15 +99,11 @@ open class GeneratorBlock(internal val type: String) :
         hit: BlockHitResult
     ): ActionResult {
         if (!world.isClient)
-            if (player.isSneaking) {
-                (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
-                    blockEntity.items.forEachIndexed { index, itemStack ->
-                        world.spawnEntity(ItemEntity(world, player.x, player.y - 1, player.z, itemStack))
-                        blockEntity.removeStack(index)
-                    }
-                }
-            } else {
-                (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
+            (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
+                if (player.isSneaking) blockEntity.items.forEachIndexed { index, itemStack ->
+                    world.spawnEntity(ItemEntity(world, player.x, player.y - 1, player.z, itemStack))
+                    blockEntity.removeStack(index)
+                } else {
                     val message = Text.empty().append(
                         Text.literal("[").append(Text.translatable("block.yacg.$type")).append("]")
                             .formatted(Formatting.AQUA)
