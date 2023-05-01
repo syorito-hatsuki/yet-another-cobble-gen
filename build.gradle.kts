@@ -21,21 +21,7 @@ val mavenGroup: String by project
 group = mavenGroup
 
 repositories {
-    maven {
-        name = "CurseMaven"
-        url = uri("https://cursemaven.com")
-        content {
-            includeGroup("curse.maven")
-        }
-    }
-
-    maven {
-        name = "Modrinth"
-        url = uri("https://api.modrinth.com/maven")
-        content {
-            includeGroup("maven.modrinth")
-        }
-    }
+    maven("https://api.modrinth.com/maven")
 }
 
 dependencies {
@@ -50,6 +36,8 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api", "fabric-api", fabricVersion)
 
     modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
+
+    include(modImplementation("maven.modrinth", "modmenu-badges-lib", "hF72vnib"))
 }
 
 tasks {
@@ -67,11 +55,7 @@ tasks {
     }
 
     jar {
-        from("LICENSE") {
-            rename {
-                "${it}_${base.archivesName}"
-            }
-        }
+        from("LICENSE")
     }
 
     processResources {

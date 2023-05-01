@@ -1,34 +1,45 @@
 {
   "schemaVersion": 1,
-  "id": "template",
+  "id": "yacg",
   "version": "${version}",
-  "name": "Template Mod",
-  "description": "Mod Description",
+  "name": "Yet Another Cobblestone Generator",
+  "description": "Flexible customizable generators",
   "authors": [
     "Syorito Hatsuki"
   ],
   "contact": {
-    "homepage": "https://syoritohatsuki.dev/"
+    "homepage": "https://syorito-hatsuki.dev/",
+    "sources": "https://github.com/syorito-hatsuki/yet-another-cobble-gen",
+    "issues": "https://github.com/syorito-hatsuki/yet-another-cobble-gen/issues"
   },
   "license": "MIT Licence",
-  "icon": "assets/template/icon.png",
+  "icon": "assets/yacg/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       {
         "adapter": "kotlin",
-        "value": "dev.syoritohatsuki.template.TemplateMod"
+        "value": "dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator"
       }
     ]
   },
-  "mixins": [
-    "template.mixins.json"
-  ],
+  "custom": {
+    "mcb": [
+      {
+        "name": "Ducky Mods",
+        "fillColor": -13070788,
+        "outlineColor": -14983648
+      }
+    ]
+  },
   "depends": {
     "fabricloader": ">=${loaderVersion}",
     "fabric": "*",
     "fabric-language-kotlin": ">=${fabricKotlinVersion}",
-    "minecraft": "${minecraftVersion}",
+    "minecraft": ">=1.19",
     "java": ">=${javaVersion}"
+  },
+  "recommends": {
+    "modmenu-badges-lib": "*"
   }
 }
