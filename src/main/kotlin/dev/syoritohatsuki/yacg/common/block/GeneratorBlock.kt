@@ -8,18 +8,46 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.Items
+import net.minecraft.state.StateManager
+import net.minecraft.state.property.DirectionProperty
+import net.minecraft.state.property.Property
 import net.minecraft.text.Text
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.ItemScatterer
+import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 open class GeneratorBlock(internal val type: String) :
     BlockWithEntity(FabricBlockSettings.of(Material.METAL).strength(2f)), BlockEntityProvider {
+    companion object {
+        val FACING: DirectionProperty = HorizontalFacingBlock.FACING
+    }
+
+    init {
+        defaultState = (stateManager.defaultState as BlockState).with(
+            AbstractFurnaceBlock.FACING,
+            Direction.NORTH
+        ) as BlockState
+    }
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
+        defaultState.with(FACING, ctx.playerFacing.opposite) as BlockState
+
+    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.with(
+        FACING,
+        rotation.rotate(state.get(FACING) as Direction)
+    ) as BlockState
+
+    override fun mirror(state: BlockState, mirror: BlockMirror): BlockState =
+        state.rotate(mirror.getRotation(state.get(AbstractFurnaceBlock.FACING) as Direction))
+
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+        builder.add(*arrayOf<Property<*>>(AbstractFurnaceBlock.FACING, AbstractFurnaceBlock.LIT))
+    }
 
     /*   Block Entity   */
     override fun getRenderType(state: BlockState): BlockRenderType = BlockRenderType.MODEL
