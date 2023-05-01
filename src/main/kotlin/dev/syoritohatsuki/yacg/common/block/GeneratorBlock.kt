@@ -17,7 +17,9 @@ import net.minecraft.item.Items
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.Property
+import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
 import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -48,7 +50,7 @@ open class GeneratorBlock(internal val type: String) :
         super.appendTooltip(stack, world, tooltip, options)
         CoefficientConfig.getBlocks(type)?.forEach {
             tooltip.add(
-                Text.literal(" - ")
+                LiteralText(" - ")
                     .append(Registry.ITEM.get(Identifier(it.key)).name)
                     .append(" [${it.value}%]").formatted(Formatting.DARK_GRAY)
             )
@@ -104,8 +106,9 @@ open class GeneratorBlock(internal val type: String) :
                     world.spawnEntity(ItemEntity(world, player.x, player.y - 1, player.z, itemStack))
                     blockEntity.removeStack(index)
                 } else {
-                    val message = Text.empty().append(
-                        Text.literal("[").append(Text.translatable("block.yacg.$type")).append("]")
+                    val message = LiteralText("").append(
+                        LiteralText("[")
+                            .append(TranslatableText("block.yacg.$type")).append("]")
                             .formatted(Formatting.AQUA)
                     )
                     blockEntity.items.forEach {
