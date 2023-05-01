@@ -8,7 +8,9 @@
     "Syorito Hatsuki"
   ],
   "contact": {
-    "homepage": "https://syoritohatsuki.dev/"
+    "homepage": "https://syorito-hatsuki.dev/",
+    "sources": "https://github.com/syorito-hatsuki/yet-another-cobble-gen",
+    "issues": "https://github.com/syorito-hatsuki/yet-another-cobble-gen/issues"
   },
   "license": "MIT Licence",
   "icon": "assets/yacg/icon.png",
@@ -21,11 +23,23 @@
       }
     ]
   },
+  "custom": {
+    "mcb": [
+      {
+        "name": "Ducky Mods",
+        "fillColor": -13070788,
+        "outlineColor": -14983648
+      }
+    ]
+  },
   "depends": {
     "fabricloader": ">=${loaderVersion}",
     "fabric": "*",
     "fabric-language-kotlin": ">=${fabricKotlinVersion}",
     "minecraft": "1.19.x",
     "java": ">=${javaVersion}"
+  },
+  "recommends": {
+    "modmenu-badges-lib": "*"
   }
 }

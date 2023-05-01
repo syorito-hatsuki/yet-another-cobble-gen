@@ -7,6 +7,7 @@ import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.Items
@@ -19,6 +20,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 open class GeneratorBlock(internal val type: String) :
@@ -35,7 +37,7 @@ open class GeneratorBlock(internal val type: String) :
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
-        defaultState.with(FACING, ctx.playerFacing.opposite) as BlockState
+        defaultState.with(FACING, ctx.horizontalPlayerFacing.opposite) as BlockState
 
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.with(
         FACING,
@@ -78,17 +80,25 @@ open class GeneratorBlock(internal val type: String) :
         hit: BlockHitResult
     ): ActionResult {
         if (!world.isClient)
-            (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
-                val message = Text.empty()
-                blockEntity.items.forEach {
-                    if (it.item != Items.AIR) message
-                        .append("\n")
-                        .append(it.item.name)
-                        .append(" x")
-                        .append("${it.count}")
-
+            if (player.isSneaking) {
+                (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
+                    blockEntity.items.forEachIndexed { index, itemStack ->
+                        world.spawnEntity(ItemEntity(world, player.x, player.y - 1, player.z, itemStack))
+                        blockEntity.removeStack(index)
+                    }
                 }
-                player.sendMessage(message)
+            } else {
+                (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
+                    val message = Text.empty()
+                    blockEntity.items.forEach {
+                        if (it.item != Items.AIR) message
+                            .append("\n")
+                            .append(it.item.name)
+                            .append(" x")
+                            .append("${it.count}")
+                    }
+                    if (message.siblings.isNotEmpty()) player.sendMessage(message)
+                }
             }
         return ActionResult.SUCCESS
     }
