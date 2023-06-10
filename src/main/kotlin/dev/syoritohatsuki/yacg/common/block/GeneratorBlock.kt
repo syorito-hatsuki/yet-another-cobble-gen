@@ -28,7 +28,7 @@ import net.minecraft.world.World
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 open class GeneratorBlock(internal val type: String) :
-    BlockWithEntity(FabricBlockSettings.of(Material.METAL).strength(2f).requiresTool()),
+    BlockWithEntity(FabricBlockSettings.create().strength(2f).requiresTool()),
     BlockEntityProvider {
 
     companion object {
