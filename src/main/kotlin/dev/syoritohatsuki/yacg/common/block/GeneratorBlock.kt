@@ -49,8 +49,8 @@ open class GeneratorBlock(internal val type: String) :
         CoefficientConfig.getBlocks(type)?.forEach {
             tooltip.add(
                 Text.literal(" - ")
-                    .append(Registries.ITEM.get(Identifier(it.key)).name)
-                    .append(" [${it.value}%]").formatted(Formatting.DARK_GRAY)
+                    .append(Registries.ITEM.get(Identifier(it.itemId)).name)
+                    .append(" [${it.coefficient}%]").formatted(Formatting.DARK_GRAY)
             )
         }
     }
