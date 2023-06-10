@@ -45,12 +45,12 @@ tasks {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
         targetCompatibility = javaVersion.toString()
-        options.release.set(javaVersion.name.toInt())
+        options.release.set(javaVersion.toString().toInt())
     }
 
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
-            jvmTarget = javaVersion.name
+            jvmTarget = javaVersion.toString()
         }
     }
 
@@ -67,7 +67,7 @@ tasks {
                     "loaderVersion" to loaderVersion,
                     "minecraftVersion" to minecraftVersion,
                     "fabricKotlinVersion" to fabricKotlinVersion,
-                    "javaVersion" to javaVersion.name
+                    "javaVersion" to javaVersion.toString()
                 )
             )
         }
