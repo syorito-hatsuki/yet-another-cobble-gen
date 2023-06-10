@@ -1,7 +1,9 @@
 {
   "itemGroup.yacg.generator": "Generator",
-
   "block.yacg.cobble": "Cobble Generator",
   "block.yacg.ore": "Ore Generator",
-  "block.yacg.stone": "Stone Generator"
+  "block.yacg.stone": "Stone Generator",
+  "item.yacg.tier_first": "Upgrade tier: 1 (WIP)",
+  "item.yacg.tier_second": "Upgrade tier: 2 (WIP)",
+  "item.yacg.tier_third": "Upgrade tier: 3 (WIP)"
 }

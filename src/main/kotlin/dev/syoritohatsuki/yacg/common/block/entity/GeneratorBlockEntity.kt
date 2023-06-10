@@ -42,7 +42,7 @@ class GeneratorBlockEntity(
                 if (!generatorBlockEntity.items.none { it.isOf(randomBlock.item) }) {
                     val slot = generatorBlockEntity.items.indexOfFirst { it.isOf(randomBlock.item) }
                     generatorBlockEntity.setStack(
-                        slot, randomBlock.copyWithCount(generatorBlockEntity.items[slot].count + 1)
+                        slot, randomBlock.copyWithCount(generatorBlockEntity.items[slot].count + randomBlock.count)
                     )
                 } else generatorBlockEntity.setStack(getEmptySlot(generatorBlockEntity.items) ?: return, randomBlock)
 
@@ -54,18 +54,17 @@ class GeneratorBlockEntity(
             markDirty(world, blockPos, blockState)
         }
 
-        private fun getRandomBlock(type: String, blocks: Map<String, Int>): ItemStack? {
+        private fun getRandomBlock(type: String, blocks: Set<CoefficientConfig.Generators.GenerateItem>): ItemStack? {
             if (blocks.isEmpty()) {
                 logger.error("Blocks list for $type is empty")
                 return null
             }
 
-            var randomNumber = Random.nextInt(blocks.values.sum())
-            blocks.entries.forEach { entry ->
-                if (randomNumber < entry.value) {
-                    return ItemStack(Registries.ITEM.get(Identifier(entry.key)))
-                }
-                randomNumber -= entry.value
+            var randomNumber = Random.nextInt(blocks.sumOf { it.coefficient })
+            blocks.forEach { block ->
+                if (randomNumber < block.coefficient)
+                    return ItemStack(Registries.ITEM.get(Identifier(block.itemId)), block.count)
+                randomNumber -= block.coefficient
             }
 
             logger.error("Blocks list for $type is empty")

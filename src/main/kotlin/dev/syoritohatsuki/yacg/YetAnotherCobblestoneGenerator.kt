@@ -3,6 +3,7 @@ package dev.syoritohatsuki.yacg
 import com.mojang.logging.LogUtils
 import dev.syoritohatsuki.yacg.registry.BlocksEntityRegistry
 import dev.syoritohatsuki.yacg.registry.BlocksRegistry
+import dev.syoritohatsuki.yacg.registry.ItemsRegistry
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.item.ItemGroup
@@ -22,5 +23,6 @@ object YetAnotherCobblestoneGenerator : ModInitializer {
     override fun onInitialize() {
         BlocksRegistry
         BlocksEntityRegistry
+        ItemsRegistry
     }
 }
