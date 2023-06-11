@@ -37,7 +37,7 @@ dependencies {
 
     modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
 
-    include(modImplementation("maven.modrinth", "modmenu-badges-lib", "hF72vnib"))
+    include(modImplementation("maven.modrinth", "modmenu-badges-lib", "2023.6.1"))
 }
 
 tasks {
