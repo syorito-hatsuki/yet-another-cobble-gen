@@ -6,6 +6,8 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
+[![Discord][discord-shield]][discord-url]
+[![Modrinth][modrinth-shield]][modrinth-url]
 
 <br />
 <div align="center">
@@ -232,3 +234,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [fabric]: https://img.shields.io/badge/fabric%20api-DBD0B4?style=for-the-badge
 [fabric-language-kotlin]: https://img.shields.io/badge/fabric%20kotlin%20language-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white
 [modmenu-badges-lib]: https://img.shields.io/badge/modmenu%20badges%20lib-434956?style=for-the-badge
+[discord-shield]: https://img.shields.io/discord/1032138561618726952?logo=discord&logoColor=white&style=for-the-badge&label=Discord
+[discord-url]: https://discord.gg/pbwnMwnUD6
+[modrinth-shield]: https://img.shields.io/modrinth/v/yacg?label=Modrinth&style=for-the-badge
+[modrinth-url]: https://modrinth.com/mod/yacg
