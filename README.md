@@ -9,7 +9,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/syorito-hatsuki/yet-another-cobble">
     <img src="https://github.com/syorito-hatsuki/yet-another-cobble-gen/blob/1.20/src/main/resources/assets/yacg/icon.png" alt="Logo" width="80" height="80">
   </a>
 
