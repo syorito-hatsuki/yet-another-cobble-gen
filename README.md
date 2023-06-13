@@ -232,7 +232,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [linkedin-url]: https://linkedin.com/in/kit-lehto
 [screenshot]: https://cdn-raw.modrinth.com/data/xPsKRMUF/images/047a2072ffe8fe5368479d0560eb2bbca2b1ef5f.png
 [fabric]: https://img.shields.io/badge/fabric%20api-DBD0B4?style=for-the-badge
-[fabric-language-kotlin]: https://img.shields.io/badge/fabric%20kotlin%20language-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white
+[fabric-language-kotlin]: https://img.shields.io/badge/fabric%20language%20kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white
 [modmenu-badges-lib]: https://img.shields.io/badge/modmenu%20badges%20lib-434956?style=for-the-badge
 [discord-shield]: https://img.shields.io/discord/1032138561618726952?logo=discord&logoColor=white&style=for-the-badge&label=Discord
 [discord-url]: https://discord.gg/pbwnMwnUD6
