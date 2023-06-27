@@ -1,3 +1,6 @@
+<!-- Suppress IDEA Warnings -->
+<!--suppress ALL -->
+
 <a name="readme-top"></a>
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -77,115 +80,115 @@ A cobblestone generator, a classic of any SkyBlock. However, I'm bored with clas
 
 <details>
   <summary>Default config file</summary>
-  
+
   ```json
   {
-      "generators": {
-          "cobble": [
-              {
-                  "itemId": "minecraft:cobblestone",
-                  "coefficient": 100,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:cobbled_deepslate",
-                  "coefficient": 30,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:mossy_cobblestone",
-                  "coefficient": 10,
-                  "count": 1
-              }
-          ],
-          "ore": [
-              {
-                  "itemId": "minecraft:coal_ore",
-                  "coefficient": 100,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:copper_ore",
-                  "coefficient": 70,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:iron_ore",
-                  "coefficient": 50,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:gold_ore",
-                  "coefficient": 30,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:redstone_ore",
-                  "coefficient": 20,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:lapis_ore",
-                  "coefficient": 20,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:diamond_ore",
-                  "coefficient": 15,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:emerald_ore",
-                  "coefficient": 10,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:nether_quartz_ore",
-                  "coefficient": 5,
-                  "count": 1
-              }
-          ],
-          "stone": [
-              {
-                  "itemId": "minecraft:stone",
-                  "coefficient": 100,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:diorite",
-                  "coefficient": 50,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:granite",
-                  "coefficient": 50,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:andesite",
-                  "coefficient": 50,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:calcite",
-                  "coefficient": 20,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:dripstone_block",
-                  "coefficient": 20,
-                  "count": 1
-              },
-              {
-                  "itemId": "minecraft:deepslate",
-                  "coefficient": 5,
-                  "count": 1
-              }
-          ]
+  "generators": {
+    "cobble": [
+      {
+        "itemId": "minecraft:cobblestone",
+        "coefficient": 100,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:cobbled_deepslate",
+        "coefficient": 30,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:mossy_cobblestone",
+        "coefficient": 10,
+        "count": 1
       }
+    ],
+    "ore": [
+      {
+        "itemId": "minecraft:coal_ore",
+        "coefficient": 100,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:copper_ore",
+        "coefficient": 70,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:iron_ore",
+        "coefficient": 50,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:gold_ore",
+        "coefficient": 30,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:redstone_ore",
+        "coefficient": 20,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:lapis_ore",
+        "coefficient": 20,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:diamond_ore",
+        "coefficient": 15,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:emerald_ore",
+        "coefficient": 10,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:nether_quartz_ore",
+        "coefficient": 5,
+        "count": 1
+      }
+    ],
+    "stone": [
+      {
+        "itemId": "minecraft:stone",
+        "coefficient": 100,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:diorite",
+        "coefficient": 50,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:granite",
+        "coefficient": 50,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:andesite",
+        "coefficient": 50,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:calcite",
+        "coefficient": 20,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:dripstone_block",
+        "coefficient": 20,
+        "count": 1
+      },
+      {
+        "itemId": "minecraft:deepslate",
+        "coefficient": 5,
+        "count": 1
+      }
+    ]
   }
+}
   ```
-  
+
 </details>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
