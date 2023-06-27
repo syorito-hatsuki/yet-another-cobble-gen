@@ -1,4 +1,4 @@
-package dev.syoritohatsuki.yacg
+package dev.syoritohatsuki.yacg.config
 
 import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.MOD_ID
 import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.logger
@@ -6,13 +6,15 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import net.minecraft.util.math.MathHelper
 import java.io.File
 import java.nio.file.Paths
+import kotlin.math.roundToInt
 import kotlin.system.exitProcess
 
-object CoefficientConfig {
+object GeneratorsConfig {
     private val configDir: File = Paths.get("", "config", MOD_ID).toFile()
-    private val configFile = File(configDir, "config.json")
+    private val configFile = File(configDir, "generators.json")
 
     private val json = Json {
         encodeDefaults = true
@@ -26,7 +28,17 @@ object CoefficientConfig {
     }
 
     fun getBlocks(type: String): Set<Generators.GenerateItem>? = try {
-        json.decodeFromString<Generators>(configFile.readText()).generators[type]
+        json.decodeFromString<Generators>(configFile.readText()).generators[type]?.apply {
+            map { item ->
+                item.coefficient = MathHelper.map(
+                    item.coefficient.toFloat(),
+                    minOf { it.coefficient }.toFloat(),
+                    maxOf { it.coefficient }.toFloat(),
+                    1F,
+                    100F
+                ).roundToInt()
+            }
+        }
     } catch (e: Exception) {
         logger.error(e.localizedMessage)
         emptySet()
@@ -37,7 +49,7 @@ object CoefficientConfig {
     } catch (e: Exception) {
         try {
             configFile.apply {
-                copyTo(File(configDir, "backup_config.json"))
+                copyTo(File(configDir, "backup_generators.json"))
                 writeText(json.encodeToString(Generators()))
             }
             json.decodeFromString<Generators>(configFile.readText()).generators.keys
@@ -80,7 +92,7 @@ object CoefficientConfig {
         @Serializable
         data class GenerateItem(
             val itemId: String,
-            val coefficient: Int,
+            var coefficient: Int,
             val count: Int
         )
     }

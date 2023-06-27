@@ -1,9 +1,9 @@
 package dev.syoritohatsuki.yacg.registry
 
-import dev.syoritohatsuki.yacg.CoefficientConfig
-import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator
-import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.GENERATOR_ITEM_GROUP
+import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.MOD_ID
+import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.YACG_ITEM_GROUP
 import dev.syoritohatsuki.yacg.common.block.GeneratorBlock
+import dev.syoritohatsuki.yacg.config.GeneratorsConfig
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents.ModifyEntries
 import net.minecraft.block.Block
@@ -18,21 +18,20 @@ object BlocksRegistry {
     val BLOCKS: MutableMap<Block, Identifier> = LinkedHashMap()
 
     init {
-        CoefficientConfig.getTypes().forEach {
+        GeneratorsConfig.getTypes().forEach {
             GeneratorBlock(it).create()
         }
 
         BLOCKS.keys.forEach { block ->
             Registry.register(Registries.BLOCK, BLOCKS[block], block)
-            Registry.register(Registries.ITEM, BLOCKS[block], BlockItem(block, Item.Settings()).also { item ->
-                ItemGroupEvents.modifyEntriesEvent(GENERATOR_ITEM_GROUP).register(ModifyEntries {
-                    it.add(item)
-                })
+            Registry.register(Registries.ITEM, BLOCKS[block], BlockItem(block, Item.Settings()))
+            ItemGroupEvents.modifyEntriesEvent(YACG_ITEM_GROUP).register(ModifyEntries {
+                it.add(block)
             })
         }
     }
 
     private fun Block.create(): Block = this.apply {
-        BLOCKS[this] = Identifier(YetAnotherCobblestoneGenerator.MOD_ID, (this as GeneratorBlock).type)
+        BLOCKS[this] = Identifier(MOD_ID, (this as GeneratorBlock).type)
     }
 }

@@ -5,7 +5,9 @@
   "name": "Yet Another Cobblestone Generator",
   "description": "Flexible customizable generators",
   "authors": [
-    "Syorito Hatsuki"
+    "Syorito Hatsuki",
+    "Hasti",
+    "Denfop"
   ],
   "contact": {
     "homepage": "https://syorito-hatsuki.dev/",

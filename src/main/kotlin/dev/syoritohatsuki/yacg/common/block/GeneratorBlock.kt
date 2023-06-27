@@ -1,20 +1,24 @@
 package dev.syoritohatsuki.yacg.common.block
 
-import dev.syoritohatsuki.yacg.CoefficientConfig
 import dev.syoritohatsuki.yacg.common.block.entity.GeneratorBlockEntity
+import dev.syoritohatsuki.yacg.common.item.UpgradeItem
+import dev.syoritohatsuki.yacg.config.GeneratorsConfig
+import dev.syoritohatsuki.yacg.message.generatorChancesTooltip
+import dev.syoritohatsuki.yacg.message.hiddenTooltip
 import dev.syoritohatsuki.yacg.registry.BlocksEntityRegistry
+import dev.syoritohatsuki.yacg.registry.ItemsRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.registry.Registries
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.Property
@@ -25,6 +29,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 open class GeneratorBlock(internal val type: String) :
@@ -46,14 +51,16 @@ open class GeneratorBlock(internal val type: String) :
         options: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, options)
-        CoefficientConfig.getBlocks(type)?.forEach {
-            tooltip.add(
-                Text.literal(" - ")
-                    .append(Registries.ITEM.get(Identifier(it.itemId)).name)
-                    .append(" [${it.coefficient}%]").formatted(Formatting.DARK_GRAY)
-            )
+        if (!Screen.hasShiftDown()) {
+            tooltip.hiddenTooltip()
+            return
+        }
+
+        GeneratorsConfig.getBlocks(type)?.forEach {
+            tooltip.generatorChancesTooltip(it.coefficient, it.itemId)
         }
     }
+
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
         defaultState.with(FACING, ctx.horizontalPlayerFacing.opposite) as BlockState
@@ -90,6 +97,28 @@ open class GeneratorBlock(internal val type: String) :
         }
     }
 
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        super.onBreak(world, pos, state, player)
+        val x = player.x
+        val y = player.y
+        val z = player.z
+        (world.getBlockEntity(pos) as GeneratorBlockEntity).listUpgrades.forEach { type ->
+            when (type) {
+                UpgradeItem.UpgradesTypes.COEFFICIENT -> world.spawnEntity(
+                    ItemEntity(world, x, y, z, ItemStack(ItemsRegistry.COEFFICIENT_UPGRADE))
+                )
+
+                UpgradeItem.UpgradesTypes.COUNT -> world.spawnEntity(
+                    ItemEntity(world, x, y, z, ItemStack(ItemsRegistry.COUNT_UPGRADE))
+                )
+
+                UpgradeItem.UpgradesTypes.SPEED -> world.spawnEntity(
+                    ItemEntity(world, x, y, z, ItemStack(ItemsRegistry.SPEED_UPGRADE))
+                )
+            }
+        }
+    }
+
     override fun onUse(
         state: BlockState,
         world: World,
@@ -98,23 +127,25 @@ open class GeneratorBlock(internal val type: String) :
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        if (!world.isClient)
-            (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
-                if (player.isSneaking) blockEntity.items.forEachIndexed { index, itemStack ->
-                    world.spawnEntity(ItemEntity(world, player.x, player.y - 1, player.z, itemStack))
-                    blockEntity.removeStack(index)
-                } else {
-                    val message = Text.empty().append(
-                        Text.literal("[").append(Text.translatable("block.yacg.$type")).append("]")
-                            .formatted(Formatting.AQUA)
-                    )
-                    blockEntity.items.forEach {
-                        if (it.item != Items.AIR) message.append("\n - ").append(it.item.name).append(" x")
-                            .append("${it.count}")
-                    }
-                    if (message.siblings.isNotEmpty()) player.sendMessage(message, false)
+        if (!world.isClient) (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
+            if (player.isSneaking) blockEntity.items.forEachIndexed { index, itemStack ->
+                world.spawnEntity(ItemEntity(world, player.x, player.y, player.z, itemStack))
+                blockEntity.removeStack(index)
+            } else {
+                val message = Text.empty().append(
+                    Text.literal("[").append(Text.translatable("block.yacg.$type")).append("]")
+                        .formatted(Formatting.AQUA)
+                )
+                blockEntity.items.forEach {
+                    if (it.item is UpgradeItem || it.item == Items.AIR) return@forEach
+                    message.append("\n - ${it.item.name.string} x${it.count}")
                 }
+                blockEntity.listUpgrades.forEach {
+                    message.append(Text.literal("\n - Upgrade: ${it.name}").formatted(Formatting.RED))
+                }
+                player.sendMessage(message, false)
             }
+        }
         return ActionResult.SUCCESS
     }
 

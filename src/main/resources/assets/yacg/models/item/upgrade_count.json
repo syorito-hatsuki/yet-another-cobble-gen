@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "yacg:item/upgrade/tier_third"
+    "layer0": "yacg:item/upgrade/count"
   }
 }

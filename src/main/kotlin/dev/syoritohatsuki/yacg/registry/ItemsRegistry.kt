@@ -1,7 +1,8 @@
 package dev.syoritohatsuki.yacg.registry
 
-import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator
-import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.GENERATOR_ITEM_GROUP
+import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.MOD_ID
+import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.YACG_ITEM_GROUP
+import dev.syoritohatsuki.yacg.common.item.UpgradeItem
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
@@ -12,21 +13,20 @@ object ItemsRegistry {
 
     private val ITEMS: MutableMap<Item, Identifier> = LinkedHashMap()
 
-    private val TIER_FIRST = Item(Item.Settings()).create("tier_first")
-    private val TIER_SECOND = Item(Item.Settings()).create("tier_second")
-    private val TIER_THIRD = Item(Item.Settings()).create("tier_third")
+    val COEFFICIENT_UPGRADE = UpgradeItem(UpgradeItem.UpgradesTypes.COEFFICIENT).create("upgrade_coefficient")
+    val COUNT_UPGRADE = UpgradeItem(UpgradeItem.UpgradesTypes.COUNT).create("upgrade_count")
+    val SPEED_UPGRADE = UpgradeItem(UpgradeItem.UpgradesTypes.SPEED).create("upgrade_speed")
 
     init {
         ITEMS.keys.forEach { item ->
-            Registry.register(Registries.ITEM, ITEMS[item], item).also {
-                ItemGroupEvents.modifyEntriesEvent(GENERATOR_ITEM_GROUP).register(ItemGroupEvents.ModifyEntries {
-                    it.add(item)
-                })
-            }
+            Registry.register(Registries.ITEM, ITEMS[item], item)
+            ItemGroupEvents.modifyEntriesEvent(YACG_ITEM_GROUP).register(ItemGroupEvents.ModifyEntries {
+                it.add(item)
+            })
         }
     }
 
     private fun Item.create(id: String): Item = this.apply {
-        ITEMS[this] = Identifier(YetAnotherCobblestoneGenerator.MOD_ID, id)
+        ITEMS[this] = Identifier(MOD_ID, id)
     }
 }

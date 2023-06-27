@@ -22,8 +22,8 @@ object YetAnotherCobblestoneGenerator : ModInitializer {
     const val MOD_ID = "yacg"
     val logger: Logger = LogUtils.getLogger()
 
-    val GENERATOR_ITEM_GROUP: RegistryKey<ItemGroup> =
-        RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier(MOD_ID, "generator"))
+    val YACG_ITEM_GROUP: RegistryKey<ItemGroup> =
+        RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier(MOD_ID, MOD_ID))
 
     override fun onInitialize() {
         BlocksRegistry
@@ -31,13 +31,11 @@ object YetAnotherCobblestoneGenerator : ModInitializer {
         ItemsRegistry
 
         Registry.register(
-            Registries.ITEM_GROUP, GENERATOR_ITEM_GROUP,
-            FabricItemGroup.builder()
-                .icon {
-                    ItemStack(BlocksRegistry.BLOCKS.keys.first())
-                }
-                .displayName(Text.translatable("itemGroup.yacg.generator"))
-                .build()
+            Registries.ITEM_GROUP,
+            YACG_ITEM_GROUP,
+            FabricItemGroup.builder().icon {
+                ItemStack(BlocksRegistry.BLOCKS.keys.first())
+            }.displayName(Text.literal(MOD_ID.uppercase())).build()
         )
     }
 }
