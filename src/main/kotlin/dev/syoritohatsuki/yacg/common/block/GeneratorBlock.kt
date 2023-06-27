@@ -140,9 +140,6 @@ open class GeneratorBlock(internal val type: String) :
                     if (it.item is UpgradeItem || it.item == Items.AIR) return@forEach
                     message.append("\n - ${it.item.name.string} x${it.count}")
                 }
-                blockEntity.listUpgrades.forEach {
-                    message.append(Text.literal("\n - Upgrade: ${it.name}").formatted(Formatting.RED))
-                }
                 player.sendMessage(message, false)
             }
         }
