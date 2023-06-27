@@ -42,6 +42,9 @@ dependencies {
     modCompileOnly("dev.emi:emi-fabric:$emiVersion:api")
     modLocalRuntime("dev.emi", "emi-fabric", emiVersion)
 
+    val jadeVersion: String by project
+    modImplementation("maven.modrinth", "jade", jadeVersion)
+
     include(modImplementation("maven.modrinth", "modmenu-badges-lib", "2023.6.1"))
 }
 

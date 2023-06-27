@@ -29,6 +29,12 @@
         "adapter": "kotlin",
         "value": "dev.syoritohatsuki.yacg.integration.emi.YacgEmiPlugin"
       }
+    ],
+    "jade": [
+      {
+        "adapter": "kotlin",
+        "value": "dev.syoritohatsuki.yacg.integration.jade.YacgJadePlugin"
+      }
     ]
   },
   "custom": {
@@ -48,6 +54,8 @@
     "java": ">=${javaVersion}"
   },
   "recommends": {
-    "modmenu-badges-lib": "*"
+    "modmenu-badges-lib": "*",
+    "emi": "*",
+    "jade": "*"
   }
 }
