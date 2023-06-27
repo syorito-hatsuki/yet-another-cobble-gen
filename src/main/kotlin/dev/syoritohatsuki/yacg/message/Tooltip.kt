@@ -21,13 +21,7 @@ fun MutableList<Text>.generatorChancesTooltip(coefficient: Int, itemId: String) 
     Text.literal(" - ")
         .append(Registries.ITEM.get(Identifier(itemId)).name)
         .append(Text.literal(" ["))
-        .append(
-            when {
-                coefficient >= 80 -> Text.literal("Common").formatted(Formatting.GREEN)
-                coefficient in 31..79 -> Text.literal("Uncommon").formatted(Formatting.YELLOW)
-                else -> Text.literal("Rare").formatted(Formatting.RED)
-            }
-        )
+        .append(generationRarityText(coefficient))
         .append(Text.literal("]"))
         .formatted(Formatting.DARK_GRAY)
 )
@@ -38,3 +32,9 @@ fun MutableList<Text>.upgradeItemTooltip(type: String) = add(
         UpgradesConfig.getUpgradeModify(UpgradeItem.UpgradesTypes.valueOf(type)), '%'
     ).formatted(Formatting.YELLOW)
 )
+
+fun generationRarityText(coefficient: Int): Text = when {
+    coefficient >= 80 -> Text.literal("Common").formatted(Formatting.GREEN)
+    coefficient in 31..79 -> Text.literal("Uncommon").formatted(Formatting.YELLOW)
+    else -> Text.literal("Rare").formatted(Formatting.RED)
+}

@@ -23,6 +23,7 @@ group = mavenGroup
 repositories {
     maven("https://api.modrinth.com/maven")
     maven("https://maven.terraformersmc.com/")
+    maven("https://maven.shedaniel.me/")
 }
 
 dependencies {
@@ -44,6 +45,11 @@ dependencies {
 
     val jadeVersion: String by project
     modImplementation("maven.modrinth", "jade", jadeVersion)
+
+    val reiVersion: String by project
+    modLocalRuntime("me.shedaniel", "RoughlyEnoughItems-fabric", reiVersion)
+    modCompileOnly("me.shedaniel", "RoughlyEnoughItems-api-fabric", reiVersion)
+
 
     include(modImplementation("maven.modrinth", "modmenu-badges-lib", "2023.6.1"))
 }

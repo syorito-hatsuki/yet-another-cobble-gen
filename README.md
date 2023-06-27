@@ -196,6 +196,7 @@ A cobblestone generator, a classic of any SkyBlock. However, I'm bored with clas
 - [x] Generator upgrades
 - [x] EMI Integration
 - [x] Jade Integration
+- [x] REI Integration
 
 See the [open issues](https://github.com/syorito-hatsuki/yet-another-cobble-gen/issues) for a full list of proposed features (and known issues).
 
