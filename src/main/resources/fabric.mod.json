@@ -21,6 +21,12 @@
         "adapter": "kotlin",
         "value": "dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator"
       }
+    ],
+    "emi": [
+      {
+        "adapter": "kotlin",
+        "value": "dev.syoritohatsuki.yacg.integration.emi.YacgEmiPlugin"
+      }
     ]
   },
   "custom": {

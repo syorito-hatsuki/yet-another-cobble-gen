@@ -22,6 +22,7 @@ group = mavenGroup
 
 repositories {
     maven("https://api.modrinth.com/maven")
+    maven("https://maven.terraformersmc.com/")
 }
 
 dependencies {
@@ -36,6 +37,10 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api", "fabric-api", fabricVersion)
 
     modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
+
+    val emiVersion: String by project
+    modCompileOnly("dev.emi:emi-fabric:$emiVersion:api")
+    modLocalRuntime("dev.emi", "emi-fabric", emiVersion)
 
     include(modImplementation("maven.modrinth", "modmenu-badges-lib", "2023.6.1"))
 }
