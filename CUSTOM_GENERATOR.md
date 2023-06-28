@@ -13,8 +13,7 @@ Open `./config/yacg/config.json` and add `custom` generator
             }
         ],
         "cobble": [
-           
-        ],
+        ]
     }
 }
 ```
@@ -30,7 +29,9 @@ Now we need to attach next things.
 * [Craft](#craft)
 * [Mining possibility](#mining-possibility)
 
-You can download that example files and edit it how u need [custom_textures.zip]() and [custom_data.zip]().
+You can download that example files and edit it how u
+need [custom_textures.zip](https://github.com/syorito-hatsuki/yet-another-cobble-gen/blob/textures-and-datapacks/custom_textures.zip)
+and [custom_data.zip](https://github.com/syorito-hatsuki/yet-another-cobble-gen/blob/textures-and-datapacks/custom_data.zip).
 
 ### Textures and models
 
