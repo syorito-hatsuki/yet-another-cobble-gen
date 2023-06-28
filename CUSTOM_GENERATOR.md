@@ -65,11 +65,11 @@ Textures and models require multiply files.
 * Textures locate in `./resourcepacks/custom_textures/assets/yacg/textures/block/custom/` In that folder you can find 5
   files. Like names says it different sides textures.
 
-* back.png
-* bottom.png
-* front.png
-* side.png
-* top.png
+  * back.png
+  * bottom.png
+  * front.png
+  * side.png
+  * top.png
 
 * Models locate in 2 directory `./resourcepacks/custom_textures/assets/yacg/models/`
 
