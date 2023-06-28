@@ -231,6 +231,8 @@ of block. That's why I made my own mod, with a wide range of customization optio
 
 </details>
 
+If u want to add own generator [go here](./CUSTOM_GENERATOR.md)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Roadmap
