@@ -44,6 +44,7 @@
       <a href="#usage">Usage</a>
       <ul>
         <li><a href="#gameplay">Gameplay</a></li>
+        <li><a href="#crafts">Crafts</a></li>
         <li><a href="#integrations">Integrations</a>
                 <ul>
                   <li><a href="#rei">REI</a></li>
@@ -84,18 +85,25 @@ of block. That's why I made my own mod, with a wide range of customization optio
 * Shift + Right-click to collect all from the generator
 * Shift + Right-click to put upgrade item into generator
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Crafts
+
+| ![Cobblestone Generator Craft](./assets/recipes/cobble.png) | ![Ore Generator Craft](./assets/recipes/ore.png)   | ![Stone Generator Craft](./assets/recipes/stone.png)           |
+|-------------------------------------------------------------|----------------------------------------------------|----------------------------------------------------------------|
+| ![Speed Upgrade Craft](./assets/recipes/speed.png)          | ![Count Upgrade Craft](./assets/recipes/count.png) | ![Coefficient Upgrade Craft](./assets/recipes/coefficient.png) |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### Integrations
 
 #### REI
 
 ![REI Integration ScreenShot][rei-integration]
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 #### EMI
 
 ![EMI Integration ScreenShot][emi-integration]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 #### Jade
 
