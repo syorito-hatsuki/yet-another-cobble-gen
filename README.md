@@ -309,7 +309,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 [emi-integration]: https://cdn.modrinth.com/data/xPsKRMUF/images/3a52d6a7b75930e96866daba0f51d3b52db020da.png
 
-[jade-integration]: https://localhost/
+[jade-integration]: https://cdn.modrinth.com/data/xPsKRMUF/images/89bce38efe2b0da0e5b0805a483c2ede7706edd9.png
 
 [fabric]: https://img.shields.io/badge/fabric%20api-DBD0B4?style=for-the-badge
 
