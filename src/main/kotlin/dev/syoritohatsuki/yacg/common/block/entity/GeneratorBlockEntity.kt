@@ -1,13 +1,16 @@
 package dev.syoritohatsuki.yacg.common.block.entity
 
-import dev.syoritohatsuki.yacg.CoefficientConfig
 import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.logger
+import dev.syoritohatsuki.yacg.common.item.UpgradeItem.UpgradesTypes
+import dev.syoritohatsuki.yacg.config.GeneratorsConfig
+import dev.syoritohatsuki.yacg.config.UpgradesConfig
 import dev.syoritohatsuki.yacg.registry.BlocksEntityRegistry
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.inventory.Inventories
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
@@ -24,54 +27,72 @@ class GeneratorBlockEntity(
     private var progress: Byte = 0
     private val maxProcess: Byte = 20
 
+    val listUpgrades: MutableList<UpgradesTypes> = mutableListOf()
+
+    private var countMultiply: Byte = 1
+    private var coefficientMultiply: Byte = 1
+    private var speedDivider: Byte = 1
+
     private val inventory = DefaultedList.ofSize(255, ItemStack.EMPTY)
 
     companion object {
 
-        fun tick(world: World, blockPos: BlockPos, blockState: BlockState, generatorBlockEntity: GeneratorBlockEntity) {
+        fun tick(world: World, blockPos: BlockPos, blockState: BlockState, entity: GeneratorBlockEntity) {
 
             if (world.isClient) return
 
-            if (generatorBlockEntity.progress == generatorBlockEntity.maxProcess) {
+            if (entity.progress < 0) entity.progress = 0
+
+            if (entity.progress == (entity.maxProcess / entity.speedDivider).toByte()) {
 
                 val randomBlock = getRandomBlock(
-                    generatorBlockEntity.type,
-                    CoefficientConfig.getBlocks(generatorBlockEntity.type) ?: return
+                    entity.type,
+                    GeneratorsConfig.getBlocks(entity.type) ?: return,
+                    entity.coefficientMultiply
                 ) ?: return
 
-                if (!generatorBlockEntity.items.none { it.isOf(randomBlock.item) }) {
-                    val slot = generatorBlockEntity.items.indexOfFirst { it.isOf(randomBlock.item) }
-                    generatorBlockEntity.setStack(
-                        slot, randomBlock.copyWithCount(generatorBlockEntity.items[slot].count + 1)
-                    )
-                } else generatorBlockEntity.setStack(getEmptySlot(generatorBlockEntity.items) ?: return, randomBlock)
+                if (!entity.inventory.none { it.isOf(randomBlock.item) }) {
+                    val slot = entity.inventory.indexOfFirst { it.isOf(randomBlock.item) }
 
-                generatorBlockEntity.progress = 0
+                    entity.setStack(
+                        slot,
+                        randomBlock.copyWithCount(entity.inventory[slot].count + (randomBlock.count * entity.countMultiply))
+                    )
+                } else entity.setStack(
+                    getEmptySlot(entity.inventory) ?: return,
+                    randomBlock.copyWithCount(entity.countMultiply.toInt())
+                )
+                entity.progress = 0
             }
 
-            generatorBlockEntity.progress++
+            entity.progress++
 
             markDirty(world, blockPos, blockState)
         }
 
-        private fun ItemStack.copyWithCount(count: Int): ItemStack {
-            val itemStack: ItemStack = this.copy()
-            itemStack.count = count
-            return itemStack
+        private fun ItemStack.copyWithCount(count: Int): ItemStack = copy().apply {
+            this.count = count
         }
 
-        private fun getRandomBlock(type: String, blocks: Map<String, Int>): ItemStack? {
+        private fun getRandomBlock(
+            type: String,
+            blocks: Set<GeneratorsConfig.Generators.GenerateItem>,
+            coefficient: Byte,
+        ): ItemStack? {
             if (blocks.isEmpty()) {
                 logger.error("Blocks list for $type is empty")
                 return null
             }
 
-            var randomNumber = Random.nextInt(blocks.values.sum())
-            blocks.entries.forEach { entry ->
-                if (randomNumber < entry.value) {
-                    return ItemStack(Registry.ITEM.get(Identifier(entry.key)))
-                }
-                randomNumber -= entry.value
+            blocks.map {
+                if (it.coefficient < 50) it.coefficient *= coefficient
+            }
+
+            var randomNumber = Random.nextInt(blocks.sumOf { it.coefficient })
+            blocks.forEach { block ->
+                if (randomNumber < block.coefficient)
+                    return ItemStack(Registry.ITEM.get(Identifier(block.itemId)), block.count)
+                randomNumber -= block.coefficient
             }
 
             logger.error("Blocks list for $type is empty")
@@ -96,12 +117,40 @@ class GeneratorBlockEntity(
         Inventories.writeNbt(nbt, inventory)
         nbt.putByte("yacg.progress", progress)
         nbt.putString("yacg.type", type)
+        listUpgrades.let { types ->
+            types.forEach {
+                nbt.putString("yacg.upgrade.${it.name.lowercase()}", it.name)
+            }
+        }
     }
 
     override fun readNbt(nbt: NbtCompound) {
         Inventories.readNbt(nbt, inventory)
+        UpgradesTypes.values().let { types ->
+            types.forEach {
+                nbt.getString("yacg.upgrade.${it.name.lowercase()}").apply {
+                    if (isNullOrBlank()) return@forEach
+                    insertUpgrade(UpgradesTypes.valueOf(this))
+                }
+            }
+        }
         super.readNbt(nbt)
-        progress = nbt.getByte("yacg.progress")
         type = nbt.getString("yacg.type")
+        progress = nbt.getByte("yacg.progress")
+    }
+
+
+    fun insertUpgrade(upgradeType: UpgradesTypes): ActionResult {
+        if (listUpgrades.contains(upgradeType)) return ActionResult.FAIL
+
+        listUpgrades.add(upgradeType)
+
+        when (upgradeType) {
+            UpgradesTypes.SPEED -> speedDivider = UpgradesConfig.getUpgradeModify(upgradeType) ?: 2
+            UpgradesTypes.COEFFICIENT -> coefficientMultiply = UpgradesConfig.getUpgradeModify(upgradeType) ?: 2
+            UpgradesTypes.COUNT -> countMultiply = UpgradesConfig.getUpgradeModify(upgradeType) ?: 2
+        }
+
+        return ActionResult.SUCCESS
     }
 }

@@ -5,7 +5,9 @@
   "name": "Yet Another Cobblestone Generator",
   "description": "Flexible customizable generators",
   "authors": [
-    "Syorito Hatsuki"
+    "Syorito Hatsuki",
+    "Hasti",
+    "Denfop"
   ],
   "contact": {
     "homepage": "https://syorito-hatsuki.dev/",
@@ -20,6 +22,24 @@
       {
         "adapter": "kotlin",
         "value": "dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator"
+      }
+    ],
+    "emi": [
+      {
+        "adapter": "kotlin",
+        "value": "dev.syoritohatsuki.yacg.integration.emi.YacgEmiPlugin"
+      }
+    ],
+    "jade": [
+      {
+        "adapter": "kotlin",
+        "value": "dev.syoritohatsuki.yacg.integration.jade.YacgJadePlugin"
+      }
+    ],
+    "rei_client": [
+      {
+        "adapter": "kotlin",
+        "value": "dev.syoritohatsuki.yacg.integration.rei.YacgReiPlugin"
       }
     ]
   },
@@ -40,6 +60,8 @@
     "java": ">=${javaVersion}"
   },
   "recommends": {
-    "modmenu-badges-lib": "*"
+    "modmenu-badges-lib": "*",
+    "emi": "*",
+    "jade": "*"
   }
 }

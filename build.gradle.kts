@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("fabric-loom")
     kotlin("jvm")
@@ -22,6 +24,8 @@ group = mavenGroup
 
 repositories {
     maven("https://api.modrinth.com/maven")
+    maven("https://maven.terraformersmc.com/")
+    maven("https://maven.shedaniel.me/")
 }
 
 dependencies {
@@ -37,6 +41,13 @@ dependencies {
 
     modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
 
+    val emiVersion: String by project
+    modCompileOnly("dev.emi:emi-fabric:$emiVersion:api")
+    modLocalRuntime("dev.emi", "emi-fabric", emiVersion)
+
+    val jadeVersion: String by project
+    modImplementation("maven.modrinth", "jade", jadeVersion)
+
     include(modImplementation("maven.modrinth", "modmenu-badges-lib", "hF72vnib"))
 }
 
@@ -48,7 +59,7 @@ tasks {
         options.release.set(javaVersion.toString().toInt())
     }
 
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    withType<KotlinCompile> {
         kotlinOptions {
             jvmTarget = javaVersion.toString()
         }
