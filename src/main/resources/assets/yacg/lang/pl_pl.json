@@ -10,6 +10,6 @@
   "item.yacg.upgrade_coefficient.tooltip": "Pomnóż szanse generacji przez %s dla generacji które sa poniżej 50%s",
   "item.yacg.upgrade_count": "Ulepszenie: Liczba",
   "item.yacg.upgrade_count.tooltip": "Pomnoż liczbe generacji przez %s",
-  "emi.category.yacg.generators": "Generators Zasobów",
+  "emi.category.yacg.generators": "Generatory Zasobów",
   "config.jade.plugin_yacg.generators": "Plugin YACG"
 }
