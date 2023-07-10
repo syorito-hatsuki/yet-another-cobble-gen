@@ -1,0 +1,9 @@
+{
+  "itemGroup.yacg.generator": "Generator",
+  "block.yacg.cobble": "Generator Bruku",
+  "block.yacg.ore": "Generator Rudy",
+  "block.yacg.stone": "Generator Kamienia",
+  "item.yacg.tier_first": "Ulepszenie poziomu: 1 (WIP)",
+  "item.yacg.tier_second": "Ulepszenie poziomu: 2 (WIP)",
+  "item.yacg.tier_third": "Ulepszenie poziomu: 3 (WIP)"
+}
