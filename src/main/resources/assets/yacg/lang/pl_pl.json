@@ -1,0 +1,15 @@
+{
+  "itemGroup.yacg.generator": "Generator",
+  "block.yacg.cobble": "Generator Bruku",
+  "block.yacg.ore": "Generator Rudy",
+  "block.yacg.stone": "Generator Kamienia",
+  "item.yacg.hidden.tooltip": "Przytrzymaj [%s] żeby zobaczyć dodatkowe informacje",
+  "item.yacg.upgrade_speed": "Ulepszenie: Prędkość",
+  "item.yacg.upgrade_speed.tooltip": "Podziel opóźnienie pomiędzy generacjami przez %s",
+  "item.yacg.upgrade_coefficient": "Ulepszenie: Mzożnik",
+  "item.yacg.upgrade_coefficient.tooltip": "Pomnóż szanse generacji przez %s dla generacji które sa poniżej 50%s",
+  "item.yacg.upgrade_count": "Ulepszenie: Liczba",
+  "item.yacg.upgrade_count.tooltip": "Pomnoż liczbe generacji przez %s",
+  "emi.category.yacg.generators": "Generators Zasobów",
+  "config.jade.plugin_yacg.generators": "Plugin YACG"
+}
