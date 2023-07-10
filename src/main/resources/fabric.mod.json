@@ -35,12 +35,6 @@
         "adapter": "kotlin",
         "value": "dev.syoritohatsuki.yacg.integration.jade.YacgJadePlugin"
       }
-    ],
-    "rei_client": [
-      {
-        "adapter": "kotlin",
-        "value": "dev.syoritohatsuki.yacg.integration.rei.YacgReiPlugin"
-      }
     ]
   },
   "custom": {
