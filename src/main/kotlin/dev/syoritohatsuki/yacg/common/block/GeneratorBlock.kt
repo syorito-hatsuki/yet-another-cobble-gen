@@ -20,7 +20,9 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.DirectionProperty
+import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Property
 import net.minecraft.text.Text
 import net.minecraft.util.*
@@ -36,11 +38,14 @@ open class GeneratorBlock(internal val type: String) :
     BlockEntityProvider {
 
     companion object {
+        val ENABLED: BooleanProperty = Properties.ENABLED
         val FACING: DirectionProperty = HorizontalFacingBlock.FACING
     }
 
     init {
-        defaultState = (stateManager.defaultState as BlockState).with(FACING, Direction.NORTH) as BlockState
+        defaultState = ((stateManager.defaultState as BlockState)
+            .with(FACING, Direction.NORTH) as BlockState)
+            .with(ENABLED, true) as BlockState
     }
 
     override fun appendTooltip(
@@ -63,16 +68,28 @@ open class GeneratorBlock(internal val type: String) :
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState =
         defaultState.with(FACING, ctx.playerFacing.opposite) as BlockState
 
-    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.with(
-        FACING,
-        rotation.rotate(state.get(FACING) as Direction)
-    ) as BlockState
+    override fun rotate(state: BlockState, rotation: BlockRotation): BlockState =
+        state.with(FACING, rotation.rotate(state.get(FACING) as Direction)) as BlockState
 
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState =
-        state.rotate(mirror.getRotation(state.get(AbstractFurnaceBlock.FACING) as Direction))
+        state.rotate(mirror.getRotation(state.get(FACING) as Direction))
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
-        builder.add(*arrayOf<Property<*>>(AbstractFurnaceBlock.FACING, AbstractFurnaceBlock.LIT))
+        builder.add(*arrayOf<Property<*>>(FACING, ENABLED))
+    }
+
+    override fun neighborUpdate(
+        state: BlockState,
+        world: World,
+        pos: BlockPos,
+        sourceBlock: Block,
+        sourcePos: BlockPos,
+        notify: Boolean
+    ) {
+        val bl: Boolean = !world.isReceivingRedstonePower(pos)
+        if (bl != state.get(ENABLED)) world.setBlockState(
+            pos, state.with(ENABLED, bl) as BlockState, 4
+        )
     }
 
     /*   Block Entity   */

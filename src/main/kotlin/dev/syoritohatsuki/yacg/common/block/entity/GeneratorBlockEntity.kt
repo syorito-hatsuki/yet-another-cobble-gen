@@ -1,6 +1,7 @@
 package dev.syoritohatsuki.yacg.common.block.entity
 
 import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.logger
+import dev.syoritohatsuki.yacg.common.block.GeneratorBlock
 import dev.syoritohatsuki.yacg.common.item.UpgradeItem.UpgradesTypes
 import dev.syoritohatsuki.yacg.config.GeneratorsConfig
 import dev.syoritohatsuki.yacg.config.UpgradesConfig
@@ -44,6 +45,8 @@ class GeneratorBlockEntity(
             if (entity.progress < 0) entity.progress = 0
 
             if (entity.progress == (entity.maxProcess / entity.speedDivider).toByte()) {
+
+                if (!blockState.get(GeneratorBlock.ENABLED)) return
 
                 val randomBlock = getRandomBlock(
                     entity.type,
