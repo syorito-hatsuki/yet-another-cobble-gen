@@ -1,5 +1,13 @@
 # How to create custom generator
 
+There are now two options now:
+
+1.Either use below guide, or
+
+2.Use [zetjin's easy custom yacg generators python script](https://github.com/zetjiin/yacg-python-custom-generators-script)
+
+
+
 Open `./config/yacg/config.json` and add `custom` generator
 
 ```json
