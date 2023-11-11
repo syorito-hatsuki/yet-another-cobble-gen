@@ -22,20 +22,15 @@ object YetAnotherCobblestoneGenerator : ModInitializer {
     const val MOD_ID = "yacg"
     val logger: Logger = LogUtils.getLogger()
 
-    val YACG_ITEM_GROUP: RegistryKey<ItemGroup> =
-        RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier(MOD_ID, MOD_ID))
+    val YACG_ITEM_GROUP: RegistryKey<ItemGroup> = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier(MOD_ID, MOD_ID))
 
     override fun onInitialize() {
         BlocksRegistry
         BlocksEntityRegistry
         ItemsRegistry
 
-        Registry.register(
-            Registries.ITEM_GROUP,
-            YACG_ITEM_GROUP,
-            FabricItemGroup.builder().icon {
-                ItemStack(BlocksRegistry.BLOCKS.keys.first())
-            }.displayName(Text.literal(MOD_ID.uppercase())).build()
-        )
+        Registry.register(Registries.ITEM_GROUP, YACG_ITEM_GROUP, FabricItemGroup.builder().icon {
+            ItemStack(BlocksRegistry.BLOCKS.keys.first())
+        }.displayName(Text.literal(MOD_ID.uppercase())).build())
     }
 }
