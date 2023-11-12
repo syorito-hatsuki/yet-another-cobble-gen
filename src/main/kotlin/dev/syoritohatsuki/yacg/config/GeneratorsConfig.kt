@@ -29,6 +29,7 @@ object GeneratorsConfig {
 
     fun getBlocks(type: String): Set<Generators.GenerateItem>? = try {
         json.decodeFromString<Generators>(configFile.readText()).generators[type]?.apply {
+            if (size <= 1) return@apply
             map { item ->
                 item.coefficient = MathHelper.map(
                     item.coefficient.toFloat(),
