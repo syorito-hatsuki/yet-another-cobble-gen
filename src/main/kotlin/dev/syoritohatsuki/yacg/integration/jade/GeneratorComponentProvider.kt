@@ -13,7 +13,6 @@ import snownee.jade.api.IServerDataProvider
 import snownee.jade.api.ITooltip
 import snownee.jade.api.config.IPluginConfig
 
-
 object GeneratorComponentProvider : IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
     override fun getUid(): Identifier = Identifier(MOD_ID, "generators")

@@ -28,8 +28,7 @@ class TableCategory : DisplayCategory<TableDisplay> {
         val hasInputs = display.inputEntries.size == 2
 
         if (hasInputs) widgets.add(
-            Widgets.createSlot(Point(center.x - 20, bounds.y + 10))
-                .entries(display.inputEntries[1]).markInput()
+            Widgets.createSlot(Point(center.x - 20, bounds.y + 10)).entries(display.inputEntries[1]).markInput()
         )
 
         widgets.add(

@@ -50,7 +50,7 @@ dependencies {
     modLocalRuntime("me.shedaniel", "RoughlyEnoughItems-fabric", reiVersion)
     modCompileOnly("me.shedaniel", "RoughlyEnoughItems-api-fabric", reiVersion)
 
-    include(modImplementation("maven.modrinth", "fstats", "2023.11.2"))
+    include(modImplementation("maven.modrinth", "fstats", "2023.12.2"))
 
     include(modImplementation("maven.modrinth", "modmenu-badges-lib", "2023.6.1"))
 }

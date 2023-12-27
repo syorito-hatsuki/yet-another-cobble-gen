@@ -18,18 +18,15 @@ fun MutableList<Text>.hiddenTooltip() = add(
 )
 
 fun MutableList<Text>.generatorChancesTooltip(coefficient: Int, itemId: String) = add(
-    Text.literal(" - ")
-        .append(Registries.ITEM.get(Identifier(itemId)).name)
-        .append(Text.literal(" ["))
-        .append(generationRarityText(coefficient))
-        .append(Text.literal("]"))
-        .formatted(Formatting.DARK_GRAY)
+    Text.literal(" - ").append(Registries.ITEM.get(Identifier(itemId)).name).append(Text.literal(" ["))
+        .append(generationRarityText(coefficient)).append(Text.literal("]")).formatted(Formatting.DARK_GRAY)
 )
 
 fun MutableList<Text>.upgradeItemTooltip(type: String) = add(
     Text.translatable(
         "item.yacg.upgrade_${type.lowercase()}.tooltip",
-        UpgradesConfig.getUpgradeModify(UpgradeItem.UpgradesTypes.valueOf(type)), '%'
+        UpgradesConfig.getUpgradeModify(UpgradeItem.UpgradesTypes.valueOf(type)),
+        '%'
     ).formatted(Formatting.YELLOW)
 )
 

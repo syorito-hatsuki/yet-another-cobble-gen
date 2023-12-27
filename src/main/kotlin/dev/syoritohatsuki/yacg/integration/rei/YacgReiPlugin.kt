@@ -20,26 +20,20 @@ object YacgReiPlugin : REIClientPlugin {
     val GENERATORS_CATEGORY: CategoryIdentifier<TableDisplay> = CategoryIdentifier.of(MOD_ID, "generators")
     override fun registerCategories(registry: CategoryRegistry) {
         registry.add(TableCategory())
-        registry.addWorkstations(
-            GENERATORS_CATEGORY,
-            *BlocksRegistry.BLOCKS.keys.map { EntryIngredients.of(it) }.toTypedArray()
-        )
+        registry.addWorkstations(GENERATORS_CATEGORY, *BlocksRegistry.BLOCKS.keys.map {
+            EntryIngredients.of(it)
+        }.toTypedArray())
     }
 
     override fun registerDisplays(registry: DisplayRegistry) {
         GeneratorsConfig.getTypes().forEach { type ->
-            registry.add(
-                TableDisplay(
-                    EntryIngredients.of(ItemStack(Registries.ITEM.get(Identifier(MOD_ID, type)))),
-                    GeneratorsConfig.getBlocks(type)?.map { item ->
-                        EntryIngredient.of(
-                            EntryStacks.of(
-                                ItemStack(Registries.ITEM.get(Identifier(item.itemId)), item.count)
-                            ).tooltip(generationRarityText(item.coefficient))
-                        )
-                    } ?: return@forEach
-                )
-            )
+            registry.add(TableDisplay(EntryIngredients.of(ItemStack(Registries.ITEM.get(Identifier(MOD_ID, type)))),
+                GeneratorsConfig.getBlocks(type)?.map { item ->
+                    EntryIngredient.of(
+                        EntryStacks.of(ItemStack(Registries.ITEM.get(Identifier(item.itemId)), item.count))
+                            .tooltip(generationRarityText(item.coefficient))
+                    )
+                } ?: return@forEach))
         }
     }
 }

@@ -1,7 +1,6 @@
 package dev.syoritohatsuki.yacg.registry
 
 import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.MOD_ID
-import dev.syoritohatsuki.yacg.YetAnotherCobblestoneGenerator.YACG_ITEM_GROUP
 import dev.syoritohatsuki.yacg.common.item.UpgradeItem
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.item.Item
@@ -20,9 +19,9 @@ object ItemsRegistry {
     init {
         ITEMS.keys.forEach { item ->
             Registry.register(Registries.ITEM, ITEMS[item], item)
-            ItemGroupEvents.modifyEntriesEvent(YACG_ITEM_GROUP).register(ItemGroupEvents.ModifyEntries {
+            ItemGroupEvents.modifyEntriesEvent(ItemGroupsRegistry.YACG_ITEM_GROUP).register {
                 it.add(item)
-            })
+            }
         }
     }
 

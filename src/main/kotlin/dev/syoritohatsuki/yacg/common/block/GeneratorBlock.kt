@@ -35,8 +35,7 @@ import net.minecraft.world.World
 
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 open class GeneratorBlock(internal val type: String) :
-    BlockWithEntity(FabricBlockSettings.create().strength(2f).requiresTool()),
-    BlockEntityProvider {
+    BlockWithEntity(FabricBlockSettings.create().strength(2f).requiresTool()), BlockEntityProvider {
 
     companion object {
         val ENABLED: BooleanProperty = Properties.ENABLED
@@ -44,16 +43,13 @@ open class GeneratorBlock(internal val type: String) :
     }
 
     init {
-        defaultState = ((stateManager.defaultState as BlockState)
-            .with(FACING, Direction.NORTH) as BlockState)
-            .with(ENABLED, true) as BlockState
+        defaultState = ((stateManager.defaultState as BlockState).with(FACING, Direction.NORTH) as BlockState).with(
+            ENABLED, true
+        ) as BlockState
     }
 
     override fun appendTooltip(
-        stack: ItemStack,
-        world: BlockView?,
-        tooltip: MutableList<Text>,
-        options: TooltipContext
+        stack: ItemStack, world: BlockView?, tooltip: MutableList<Text>, options: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, options)
         if (!Screen.hasShiftDown()) {
@@ -71,8 +67,7 @@ open class GeneratorBlock(internal val type: String) :
         defaultState.with(FACING, ctx.horizontalPlayerFacing.opposite) as BlockState
 
     override fun rotate(state: BlockState, rotation: BlockRotation): BlockState = state.with(
-        FACING,
-        rotation.rotate(state.get(FACING) as Direction)
+        FACING, rotation.rotate(state.get(FACING) as Direction)
     ) as BlockState
 
     override fun mirror(state: BlockState, mirror: BlockMirror): BlockState =
@@ -86,11 +81,7 @@ open class GeneratorBlock(internal val type: String) :
     override fun getRenderType(state: BlockState): BlockRenderType = BlockRenderType.MODEL
 
     override fun onStateReplaced(
-        state: BlockState,
-        world: World,
-        pos: BlockPos,
-        newState: BlockState,
-        moved: Boolean
+        state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean
     ) {
         if (state.block != newState.block) {
             val blockEntity = world.getBlockEntity(pos)
@@ -103,12 +94,7 @@ open class GeneratorBlock(internal val type: String) :
     }
 
     override fun neighborUpdate(
-        state: BlockState,
-        world: World,
-        pos: BlockPos,
-        sourceBlock: Block,
-        sourcePos: BlockPos,
-        notify: Boolean
+        state: BlockState, world: World, pos: BlockPos, sourceBlock: Block, sourcePos: BlockPos, notify: Boolean
     ) {
         val bl: Boolean = !world.isReceivingRedstonePower(pos)
         if (bl != state.get(ENABLED)) world.setBlockState(
@@ -139,12 +125,7 @@ open class GeneratorBlock(internal val type: String) :
     }
 
     override fun onUse(
-        state: BlockState,
-        world: World,
-        pos: BlockPos,
-        player: PlayerEntity,
-        hand: Hand,
-        hit: BlockHitResult
+        state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult
     ): ActionResult {
         if (!world.isClient) (world.getBlockEntity(pos) as GeneratorBlockEntity).let { blockEntity ->
             if (player.isSneaking) blockEntity.items.forEachIndexed { index, itemStack ->
@@ -169,9 +150,7 @@ open class GeneratorBlock(internal val type: String) :
         GeneratorBlockEntity(pos, state, type)
 
     override fun <T : BlockEntity> getTicker(
-        world: World,
-        state: BlockState,
-        type: BlockEntityType<T>
+        world: World, state: BlockState, type: BlockEntityType<T>
     ): BlockEntityTicker<T>? = checkType(type, BlocksEntityRegistry.GENERATOR_ENTITY, GeneratorBlockEntity::tick)
 
 }

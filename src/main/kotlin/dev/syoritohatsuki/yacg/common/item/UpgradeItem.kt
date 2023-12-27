@@ -13,14 +13,10 @@ import net.minecraft.world.World
 class UpgradeItem(val type: UpgradesTypes) : Item(Settings().maxCount(1)) {
 
     override fun appendTooltip(
-        stack: ItemStack,
-        world: World?,
-        tooltip: MutableList<Text>,
-        context: TooltipContext
+        stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext
     ) {
         super.appendTooltip(stack, world, tooltip, context)
         tooltip.upgradeItemTooltip(type.name)
-
     }
 
     override fun useOnBlock(context: ItemUsageContext): ActionResult {

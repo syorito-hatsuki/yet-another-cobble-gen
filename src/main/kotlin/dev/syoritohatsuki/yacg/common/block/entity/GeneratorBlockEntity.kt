@@ -20,9 +20,7 @@ import net.minecraft.world.World
 import kotlin.random.Random
 
 class GeneratorBlockEntity(
-    blockPos: BlockPos,
-    blockState: BlockState,
-    private var type: String = ""
+    blockPos: BlockPos, blockState: BlockState, private var type: String = ""
 ) : BlockEntity(BlocksEntityRegistry.GENERATOR_ENTITY, blockPos, blockState), ImplementedInventory {
 
     private var progress: Byte = 0
@@ -49,9 +47,7 @@ class GeneratorBlockEntity(
                 if (!blockState.get(GeneratorBlock.ENABLED)) return
 
                 val randomBlock = getRandomBlock(
-                    entity.type,
-                    GeneratorsConfig.getBlocks(entity.type) ?: return,
-                    entity.coefficientMultiply
+                    entity.type, GeneratorsConfig.getBlocks(entity.type) ?: return, entity.coefficientMultiply
                 ) ?: return
 
                 if (!entity.inventory.none { it.isOf(randomBlock.item) }) {
@@ -62,8 +58,7 @@ class GeneratorBlockEntity(
                         randomBlock.copyWithCount(entity.inventory[slot].count + (randomBlock.count * entity.countMultiply))
                     )
                 } else entity.setStack(
-                    getEmptySlot(entity.inventory) ?: return,
-                    randomBlock.copyWithCount(entity.countMultiply.toInt())
+                    getEmptySlot(entity.inventory) ?: return, randomBlock.copyWithCount(entity.countMultiply.toInt())
                 )
                 entity.progress = 0
             }
@@ -71,7 +66,6 @@ class GeneratorBlockEntity(
             entity.progress++
 
             markDirty(world, blockPos, blockState)
-
         }
 
         private fun getRandomBlock(
@@ -90,8 +84,9 @@ class GeneratorBlockEntity(
 
             var randomNumber = Random.nextInt(blocks.sumOf { it.coefficient })
             blocks.forEach { block ->
-                if (randomNumber < block.coefficient)
-                    return ItemStack(Registries.ITEM.get(Identifier(block.itemId)), block.count)
+                if (randomNumber < block.coefficient) return ItemStack(
+                    Registries.ITEM.get(Identifier(block.itemId)), block.count
+                )
                 randomNumber -= block.coefficient
             }
 
