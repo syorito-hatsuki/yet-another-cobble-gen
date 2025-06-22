@@ -85,10 +85,6 @@ tasks {
         }
     }
 
-    jar {
-        from("LICENSE")
-    }
-
     processResources {
         inputs.property("version", project.version)
         filesMatching("fabric.mod.json") {
