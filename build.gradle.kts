@@ -1,7 +1,10 @@
+import com.modrinth.minotaur.TaskModrinthUpload
+
 plugins {
     id("fabric-loom")
     kotlin("jvm")
     kotlin("plugin.serialization")
+    id("com.modrinth.minotaur")
 }
 
 base {
@@ -10,7 +13,6 @@ base {
 }
 
 val fabricKotlinVersion: String by project
-val javaVersion = JavaVersion.VERSION_17
 val loaderVersion: String by project
 val minecraftVersion: String by project
 
@@ -39,8 +41,37 @@ dependencies {
 
     include(modImplementation("maven.modrinth", "modmenu-badges-lib", "a6dKZPBx"))
 }
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set("yacg")
+    versionName.set("Yet Another Cobblestone Generator $modVersion")
+    versionNumber.set(modVersion)
+    versionType.set("release")
+    uploadFile.set(tasks.remapJar)
+    additionalFiles.add(tasks.remapSourcesJar)
+    gameVersions.addAll("1.18.2")
+    loaders.add("fabric")
+    changelog.set(rootProject.file("CHANGELOG.md").readText())
+    dependencies {
+        required.project("fabric-api", "fabric-language-kotlin")
+        embedded.project("modmenu-badges-lib")
+    }
+}
 
 tasks {
+    val javaVersion = JavaVersion.VERSION_17
+
+    named("modrinth").configure {
+        @Suppress("UnstableApiUsage") doLast {
+            (this@configure as TaskModrinthUpload).uploadInfo?.let {
+                "https://modrinth.com/mod/yacg/version/${it.id}".apply {
+                    println(this)
+                    rootProject.file("build/modrinth_url.txt").writeText(this)
+                }
+            } ?: return@doLast
+        }
+    }
+
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
